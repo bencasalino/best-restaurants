@@ -15,10 +15,15 @@
                 <h4>Search Restaurants</h4>
                 <form class="form-inline" role="form">
                     <div class="form-group">
-                        <input type="text" ng-model="query.name" id="restaurant-name" class="form-control" placeholder="Search name">
-                        <input type="text" ng-model="query.cuisine" id="restaurant-cuisine" class="form-control" placeholder="Search cuisine">
-                        <input type="text" ng-model="query.location" id="restaurant-location" class="form-control" placeholder="Search location">
-                        <input type="number" ng-model="query.minPrice" id="restaurant-min-price" class="form-control" placeholder="Search location">
+                        <h2>Search by:</h2>
+                        <a ng-click="namesearch = true" ng-hide="namesearch">Name</a>
+                            <span class="form-group" ng-show="namesearch"><input type="text" ng-model="query.name" id="restaurant-name" class="form-control" placeholder="Search name"></span>
+                        <a ng-click="cuisinesearch = true" ng-hide="cuisinesearch">Cuisine</a>
+                            <span class="form-group" ng-show="cuisinesearch"><input type="text" ng-model="query.cuisine" id="restaurant-cuisine" class="form-control" placeholder="Search cuisine"></span>
+                        <a ng-click="locationsearch = true" ng-hide="locationsearch">Location</a>
+                            <span class="form-group" ng-show="locationsearch"><input type="text" ng-model="query.location" id="restaurant-location" class="form-control" placeholder="Search location"></span>
+                        <a ng-click="maxpricesearch = true" ng-hide="maxpricesearch">Max Price</a>
+                            <span class="form-group" ng-show="maxpricesearch"><input type="number" ng-model="query.maxPrice" id="restaurant-max-price" class="form-control" placeholder="Search max price">
                     </div> <!-- end form-group -->
                 </form>
             </div> <!-- end col-md-12 -->
@@ -28,7 +33,9 @@
                 <h2 ng-show="restaurants.length && filtered.length">Restaurant List</h2>
                 <h2 ng-show="restaurants.length && !filtered.length">No Matches</h2>
                 <ul>
-                    <li ng-repeat="item in filtered = (restaurants | filter:query)">
+                    <li ng-repeat="item in filtered = restaurants | filter: lessThan(query.maxPrice)">
+                    <li ng-repeat="item in filtered = restaurants | filter: query">
+
                         <span ng-click="editing = true" ng-hide="editing">
                             {{item.name}} - {{item.cuisine}} - {{item.location}}  <a ng-click="deleteRestaurant(item)">Delete</a><br>
                             <span class="indent">${{item.minPrice}} - ${{item.maxPrice}}</span>

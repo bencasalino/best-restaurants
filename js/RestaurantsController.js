@@ -6,10 +6,27 @@ bestRestaurants.controller('RestaurantsCtrl', function RestaurantsCtrl($scope){
         $scope.restaurantCuisine = null;
         $scope.restaurantLocation = null;
         $scope.restaurantMinPrice = null;
-        $scope.restaurantMaxPrice = null;   
+        $scope.restaurantMaxPrice = null;
 };
     $scope.deleteResaurant = function(restaurant){
         var index = $scope.restaurants.indexOf(restaurant);
         $scope.restaurants.splice(index, 1);
     };
+    $scope.greaterThan = function(property, value){
+        return function(item){
+            return item[property] >= value;
+        }
+    }
+    $scope.lessThan = function(value){
+        return function(item){
+            return (item.maxPrice <= value);
+        }
+    }
+    $scope.searchRestaurant = function(){
+        if(name != null || location != null || cuisine != null) {
+            return 'query';
+        } else {
+            return 'lessThan(query.maxPrice)';
+        }
+    }
 });
