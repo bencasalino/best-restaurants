@@ -5,6 +5,7 @@
     <script src="js/app.js"></script>
     <script src="js/RestaurantsController.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/styles.css">
     <title>Best Restaurants</title>
 </head>
 <body>
@@ -14,7 +15,10 @@
                 <h4>Search Restaurants</h4>
                 <form class="form-inline" role="form">
                     <div class="form-group">
-                        <input type="text" ng-model="query" id="restaurant-name" class="form-control" placeholder="Search">
+                        <input type="text" ng-model="query.name" id="restaurant-name" class="form-control" placeholder="Search name">
+                        <input type="text" ng-model="query.cuisine" id="restaurant-cuisine" class="form-control" placeholder="Search cuisine">
+                        <input type="text" ng-model="query.location" id="restaurant-location" class="form-control" placeholder="Search location">
+                        <input type="number" ng-model="query.minPrice" id="restaurant-min-price" class="form-control" placeholder="Search location">
                     </div> <!-- end form-group -->
                 </form>
             </div> <!-- end col-md-12 -->
@@ -26,26 +30,37 @@
                 <ul>
                     <li ng-repeat="item in filtered = (restaurants | filter:query)">
                         <span ng-click="editing = true" ng-hide="editing">
-                            {{item.name}} <a ng-click="deleteRestaurant(item)">Delete</a>
+                            {{item.name}} - {{item.cuisine}} - {{item.location}}  <a ng-click="deleteRestaurant(item)">Delete</a><br>
+                            <span class="indent">${{item.minPrice}} - ${{item.maxPrice}}</span>
                         </span>
                         <span class="form-group" ng-show="editing" ng-submit="editing = false">
                             <form class="form-inline" role="form">
                                 <input type="text" class="form-control input-sm" ng-model="item.name" placeholder="Name" required>
+                                <input type="text" class="form-control input-sm" ng-model="item.cuisine" placeholder="Cuisine" required>
+                                <input type="text" class="form-control input-sm" ng-model="item.location" placeholder="Location" required>
+                                <input type="number" class="form-control input-sm" ng-model="item.minPrice" placeholder="Min Price" required>
+                                <input type="number" class="form-control input-sm" ng-model="item.maxPrice" placeholder="Max Price" required>
                                 <button class="btn btn-default btn-sm" type="submit">Save</button>
                             </form>
                         </span>
                     </li>
                 </ul>
             </div> <!-- end col-md-12 -->
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <h2>New Restaurant</h2>
                 <form ng-submit="addRestaurant()" class="form-inline" role="form">
                     <div class="form-group">
                         <input type="text" ng-model="restaurantName" class="form-control" placeholder="Enter name">
+                        <input type="text" ng-model="restaurantCuisine" class="form-control" placeholder="Enter cuisine">
+                        <input type="text" ng-model="restaurantLocation" class="form-control" placeholder="Enter location">
+                        <br><label>$</label>
+                        <input type="number" ng-model="restaurantMinPrice" class="form-control" placeholder="Enter min price">
+                        <br><label>$</label>
+                        <input type="number" ng-model="restaurantMaxPrice" class="form-control" placeholder="Enter max price">
                     </div> <!-- end form-group -->
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
-            </div> <!-- end col-md-4 -->
+            </div> <!-- end col-md-12 -->
         </div> <!-- end row -->
     </div> <!-- end container -->
 </body>
